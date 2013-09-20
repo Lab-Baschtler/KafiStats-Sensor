@@ -45,32 +45,9 @@ def isInitRun(distance):
     return False
 
 
-def getDBUrl():
-    try:
-        return sys.argv[1]
-    except IndexError:
-        return ''
+def getFillDuration():
+    return measureStopTime - measureStartTime;
 
-
-def getCity():
-    try:
-        return sys.argv[2]
-    except IndexError:
-        return 'Unknown City'
-
-
-def getStreet():
-    try:
-        return sys.argv[3]
-    except IndexError:
-        return 'Unknown Street'
-
-
-def getFloor():
-    try:
-        return sys.argv[4]
-    except IndexError:
-        return 'Unknown Floor'
 
 
 # ===========================================================================
@@ -79,6 +56,8 @@ def getFloor():
 
 
 # Wait a short bit for sample averaging
+
+
 while True:
 
     sleep(2.0)
@@ -101,8 +80,8 @@ while True:
         measureStopTime = time()
         fillingMode = False
         if (isValidDuration(measureStartTime, measureStopTime)):
-            print "Coffee detected, send to database"
-            reportCoffee.makeRequest(getDBUrl(), getCity(), getCity(), getFloor(), measureStopTime - measureStartTime)
+            print "Coffee detected, fill duration %f, send data to database" % (getFillDuration())
+            reportCoffee.makeRequest(getFillDuration())
         else:
             print "No Coffee filling time too short"
 
