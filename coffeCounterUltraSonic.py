@@ -6,6 +6,7 @@ from time import time
 from hc_scr04 import hc_sr04_helper
 
 distanceChangeOffset = 1
+autoDistance = 0;
 oldDistance = -99
 fillingMode = False
 measureTimeOffset = 5
@@ -57,9 +58,10 @@ while True:
     if (isInitRun(oldDistance)):
         print "Initialising coffee measure system ..."
         oldDistance = distance
+        autoDistance = distance
         continue
 
-    if (hasDistanceDecreased(distance, oldDistance) and fillingMode == False):
+    if (hasDistanceDecreased(distance, autoDistance) and fillingMode == False):
         print "distance has decreased from %f to %f assuming coffee is beeing filled" % (oldDistance, distance)
         measureStartTime = time()
         fillingMode = True
@@ -74,7 +76,7 @@ while True:
         else:
             print "No Coffee filling time too short"
 
-
+    oldDistance = distance
 
 
 
