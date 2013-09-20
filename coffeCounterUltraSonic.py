@@ -58,7 +58,7 @@ while True:
     if (isInitRun(oldDistance)):
         print "Initialising coffee measure system ..."
         oldDistance = distance
-        break
+        continue
 
     if (hasDistanceDecreased(distance, oldDistance) and fillingMode == False):
         print "distance has decreased from " + oldDistance + " to " + distance + "assuming coffee is beeing filled"
