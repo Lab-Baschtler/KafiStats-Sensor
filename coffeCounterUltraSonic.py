@@ -56,7 +56,7 @@ while True:
     distance = hc_sr04_helper.measureDistance()
 
     if (isInitRun(oldDistance)):
-        print "Initialising coffee measure system ..."
+        print "Initialising ultrasonic coffee measure system, please stand by ..."
         oldDistance = distance
         autoDistance = distance
         continue

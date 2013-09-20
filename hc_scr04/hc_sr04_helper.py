@@ -23,8 +23,6 @@ def measureDistance():
     GPIO_TRIGGER = 23
     GPIO_ECHO = 24
 
-    print "Ultrasonic Measurement"
-
     # Set pins as output and input
     GPIO.setup(GPIO_TRIGGER, GPIO.OUT)  # Trigger
     GPIO.setup(GPIO_ECHO, GPIO.IN)      # Echo
