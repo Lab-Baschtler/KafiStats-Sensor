@@ -50,7 +50,6 @@ def isInitRun(distance):
 # Wait a short bit for sample averaging
 while True:
 
-    print "Initialising Sensors ..."
     sleep(2.0)
 
     distance = hc_sr04_helper.measureDistance()
@@ -61,12 +60,12 @@ while True:
         continue
 
     if (hasDistanceDecreased(distance, oldDistance) and fillingMode == False):
-        print "distance has decreased from " + oldDistance + " to " + distance + "assuming coffee is beeing filled"
+        print "distance has decreased from %f to %f assuming coffee is beeing filled" % (oldDistance, distance)
         measureStartTime = time()
         fillingMode = True
 
     if (hasDistanceIncreased(distance, oldDistance)):
-        print "distance has increased from " + oldDistance + " to " + distance + "assuming coffee has been removed"
+        print "distance has increased from %f to %f assuming coffee has been removed" % (oldDistance, distance)
         measureStopTime = time()
         fillingMode = False
         if (isValidDuration(measureStartTime, measureStopTime)):
@@ -74,8 +73,6 @@ while True:
 
         else:
             print "No Coffee filling time too short"
-
-    print "End of measure step ..."
 
 
 
