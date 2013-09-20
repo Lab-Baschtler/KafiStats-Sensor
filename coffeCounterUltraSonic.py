@@ -4,8 +4,10 @@ from time import sleep
 from time import time
 
 from hc_scr04 import hc_sr04_helper
+import reportCoffee
+import sys
 
-distanceChangeOffset = 3
+distanceChangeOffset = 2
 autoDistance = 0;
 oldDistance = -99
 fillingMode = False
@@ -43,6 +45,34 @@ def isInitRun(distance):
     return False
 
 
+def getDBUrl():
+    try:
+        return sys.argv[1]
+    except IndexError:
+        return ''
+
+
+def getCity():
+    try:
+        return sys.argv[2]
+    except IndexError:
+        return 'Unknown City'
+
+
+def getStreet():
+    try:
+        return sys.argv[3]
+    except IndexError:
+        return 'Unknown Street'
+
+
+def getFloor():
+    try:
+        return sys.argv[4]
+    except IndexError:
+        return 'Unknown Floor'
+
+
 # ===========================================================================
 # Example Code
 # ===========================================================================
@@ -72,7 +102,7 @@ while True:
         fillingMode = False
         if (isValidDuration(measureStartTime, measureStopTime)):
             print "Coffee detected, send to database"
-
+            reportCoffee.makeRequest(getDBUrl(), getCity(), getCity(), getFloor(), measureStopTime - measureStartTime)
         else:
             print "No Coffee filling time too short"
 

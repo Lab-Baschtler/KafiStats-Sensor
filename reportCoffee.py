@@ -1,13 +1,10 @@
+import sys
+
 __author__ = 'd22'
 
 import requests
 
-_url = "http://127.0.0.1"
-
-
-def makeRequest(time):
-    payload = {'timestamp': time}
-    r = requests.post(_url, data=payload)
-
-
-makeRequest('1234567890')
+def makeRequest(dbUrl, city, street, floor, duration):
+    print sys.argv[1]
+    payload = {'city': city, 'street': street, 'floor': floor, 'duration': duration}
+    requests.post(dbUrl, data=payload)
