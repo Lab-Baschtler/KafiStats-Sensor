@@ -5,7 +5,7 @@ from time import time
 
 from hc_scr04 import hc_sr04_helper
 
-distanceChangeOffset = 1
+distanceChangeOffset = 3
 autoDistance = 0;
 oldDistance = -99
 fillingMode = False
