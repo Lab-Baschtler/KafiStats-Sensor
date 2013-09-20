@@ -1,8 +1,6 @@
 import sys
 import requests
 
-__author__ = 'd22'
-
 
 def getDBUrl():
     try:

@@ -5,7 +5,6 @@ from time import time
 
 from hc_scr04 import hc_sr04_helper
 import reportCoffee
-import sys
 
 distanceChangeOffset = 2
 autoDistance = 0;
