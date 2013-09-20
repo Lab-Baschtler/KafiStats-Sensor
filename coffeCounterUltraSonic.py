@@ -56,6 +56,7 @@ while True:
     distance = hc_sr04_helper.measureDistance()
 
     if (isInitRun(oldDistance)):
+        print "Initialising coffee measure system ..."
         oldDistance = distance
         break
 
@@ -74,7 +75,7 @@ while True:
         else:
             print "No Coffee filling time too short"
 
-
+    print "End of measure step ..."
 
 
 
