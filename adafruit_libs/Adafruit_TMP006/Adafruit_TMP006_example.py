@@ -1,11 +1,10 @@
 #!/usr/bin/python
 
+from Adafruit_TMP006 import TMP006
 from time import sleep
-from adafruit_libs.Adafruit_TMP006.Adafruit_TMP006 import TMP006
-
 
 def C_to_F(C):
-    return C * (180.0 / 100.0) + 32.0
+  return C * (180.0 / 100.0) + 32.0
 
 # ===========================================================================
 # Example Code
@@ -20,12 +19,12 @@ tmp.begin()
 
 # Wait a short bit for sample averaging
 while True:
-    print "Pausing 2.0 s..."
-    sleep(2.0)
+  print "Pausing 1 s..."
+  sleep(1.0)
 
-    dietemp = tmp.readDieTempC()
-    objtemp = tmp.readObjTempC()
+  dietemp = tmp.readDieTempC()
+  objtemp = tmp.readObjTempC()
 
-    print "Die Temperature:    %.2f C / %.2f F" % (dietemp, C_to_F(dietemp))
-    print "Object Temperature: %.2f C / %.2f F" % (objtemp, C_to_F(objtemp))
+  print "Die Temperature:    %.2f C / %.2f F" % (dietemp, C_to_F(dietemp))
+  print "Object Temperature: %.2f C / %.2f F" % (objtemp, C_to_F(objtemp))
 
