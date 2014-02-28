@@ -6,9 +6,10 @@ from time import time
 from adafruit_libs.Adafruit_TMP006.Adafruit_TMP006 import TMP006
 import reportCoffee
 
-distanceChangeOffset = 2
-autoDistance = 0;
-oldDistance = -99
+
+tempChangeOffset = 5
+autoTemp = 0
+oldTemp = -99
 fillingMode = False
 measureTimeOffset = 5
 measureStartTime = 0
@@ -16,85 +17,79 @@ measureStopTime = 0
 
 
 class TempSensor(object):
-	def __init__(self, address):
-		self.device = TMP006(address)
+    def __init__(self, address):
+        self.device = TMP006(address)
 
-	def measure_temp(self):
-		return self.device.readObjTempC()
-		
+    def measure_temp(self):
+        return self.device.readObjTempC()
 
-def hasDistanceIncreased(new, old):
-    if (new >= old + distanceChangeOffset):
+
+def has_temperature_increased(new, old):
+    if new >= old + tempChangeOffset:
         return True
 
     return False
 
 
-def hasDistanceDecreased(new, old):
-    if (new <= old - distanceChangeOffset):
+def has_temperature_decreased(new, old):
+    if new <= old - tempChangeOffset:
         return True
 
     return False
 
 
-def isValidDuration(startTime, endTime):
+def is_valid_duration(startTime, endTime):
     duration = endTime - startTime
-    if (duration >= measureTimeOffset):
+    if duration >= measureTimeOffset:
         return True
 
     return False
 
 
-def isInitRun(distance):
-    if (distance == -99):
+def is_initial_run(distance):
+    if distance == -99:
         return True
 
     return False
 
 
-def getFillDuration():
+def get_fill_duration():
     return measureStopTime - measureStartTime;
 
 
 
-# ===========================================================================
-# Example Code
-# ===========================================================================
-
-
-# Wait a short bit for sample averaging
-
 temp_sensor = TempSensor(0x40)
-
 
 while True:
 
-    sleep(2.0)
+    sleep(1.5)
 
-    distance = temp_sensor.measure_temp() 
+    temp = temp_sensor.measure_temp()
 
-    if (isInitRun(oldDistance)):
-        print "Initialising ultrasonic coffee measure system, please stand by ..."
-        oldDistance = distance
-        autoDistance = distance
+    if is_initial_run(oldTemp):
+        print "Initialising infrared temerature coffee counting system, please stand by ..."
+        oldTemp = temp
+        autoTemp = temp
         continue
 
-    if (hasDistanceDecreased(distance, autoDistance) and fillingMode == False):
-        print "distance has decreased from %f to %f assuming coffee is beeing filled" % (oldDistance, distance)
+    print "Probing for coffee..."
+
+    if has_temperature_increased(temp, autoTemp) and fillingMode is False:
+        print "Temperature has increased from %f to %f assuming coffee is beeing filled" % (oldTemp, temp)
         measureStartTime = time()
         fillingMode = True
 
-    if (hasDistanceIncreased(distance, oldDistance)):
-        print "distance has increased from %f to %f assuming coffee has been removed" % (oldDistance, distance)
+    if has_temperature_decreased(temp, oldTemp):
+        print "Temperature has decreased from %f to %f assuming coffee has been removed" % (oldTemp, temp)
         measureStopTime = time()
         fillingMode = False
-        if (isValidDuration(measureStartTime, measureStopTime)):
-            print "Coffee detected, fill duration %f, send data to database" % (getFillDuration())
-            reportCoffee.makeRequest(getFillDuration())
+        if is_valid_duration(measureStartTime, measureStopTime):
+            print "Coffee detected! Filling duration: %f. Sending data to database" % (get_fill_duration())
+            reportCoffee.makeRequest(get_fill_duration())
         else:
-            print "No Coffee filling time too short"
+            print "Time between changes to short, assuming no coffe has been taken."
 
-    oldDistance = distance
+    oldTemp = temp
 
 
 
